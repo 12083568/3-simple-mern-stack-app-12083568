@@ -1,5 +1,6 @@
 require('dotenv').config({ silent: true }) // load environmental variables from a hidden file named .env
 const express = require('express') // CommonJS import style!
+const path = require('path');
 const morgan = require('morgan') // middleware for nice logging of incoming HTTP requests
 const cors = require('cors') // middleware for enabling CORS (Cross-Origin Resource Sharing) requests.
 const mongoose = require('mongoose')
@@ -78,5 +79,17 @@ app.post('/messages/save', async (req, res) => {
   }
 })
 
+// a route to return my info
+app.get('/about-me', (req, res) => {
+  res.json({
+    name: 'Ruiqi',
+    description: 'I am a student at NYU',
+    imageUrl: 'http://localhost:5002/images/bagel.png'
+  })
+});
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+console.log(path.join(__dirname, 'images'))
 // export the express app we created to make it available to other modules
 module.exports = app // CommonJS export style!
